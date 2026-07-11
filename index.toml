@@ -1,0 +1,9 @@
+[[plugins]]
+id = "catppuccin-mocha"
+name = "Catppuccin Mocha"
+description = "Soothing pastel dark theme"
+author = "hastagaming"
+version = "1.0.0"
+type = "theme"
+downloadUrl = "https://raw.githubusercontent.com/hastagaming/WebApps-plugin/main/plugins/catppuccin-mocha.wp"
+previewColorHex = "#CBA6F7"
