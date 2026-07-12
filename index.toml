@@ -2,6 +2,6 @@
 name = "Catppuccin Mocha"
 description = "Soothing pastel dark theme"
 author = "hastagaming"
-version = 1.0.0
+version = "1.0.0"
 type = "theme"
 previewColorHex = "#CBA6F7"
