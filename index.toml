@@ -1,4 +1,4 @@
-[plugins]
+[plugins.catppuccin-mocha]
 name = "Catppuccin Mocha"
 description = "Soothing pastel dark theme"
 author = "hastagaming"
