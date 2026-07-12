@@ -1,0 +1,111 @@
+name: Build Plugins
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "plugins-src/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Encode Plugin Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build all plugins from source
+        run: |
+          mkdir -p plugins
+
+          get_value() {
+            local file="$1"
+            local key="$2"
+            local line
+            line=$(grep -E "^${key}[[:space:]]*=" "$file" | head -n 1)
+            if [ -z "$line" ]; then echo ""; return; fi
+            local raw="${line#*=}"
+            raw=$(echo "$raw" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            raw=$(echo "$raw" | sed -e 's/^"//' -e 's/"$//')
+            echo "$raw"
+          }
+
+          echo "[plugin]" > index.toml
+
+          for type_dir in plugins-src/*/; do
+            [ -d "$type_dir" ] || continue
+            plugin_type=$(basename "$type_dir")
+
+            echo "${plugin_type} = [" >> index.toml
+
+            for src_file in "$type_dir"*.wp; do
+              [ -f "$src_file" ] || continue
+              plugin_id=$(basename "$src_file" .wp)
+
+              NAME=$(get_value "$src_file" "name")
+              DESCRIPTION=$(get_value "$src_file" "description")
+              AUTHOR=$(get_value "$src_file" "author")
+              VERSION=$(get_value "$src_file" "version")
+              PREVIEW_COLOR=$(get_value "$src_file" "previewColorHex")
+
+              COLOR_PRIMARY=$(get_value "$src_file" "colorPrimary")
+              COLOR_BACKGROUND=$(get_value "$src_file" "colorBackground")
+              COLOR_SURFACE=$(get_value "$src_file" "colorSurface")
+              COLOR_SURFACE_VARIANT=$(get_value "$src_file" "colorSurfaceVariant")
+              COLOR_ON_SURFACE=$(get_value "$src_file" "colorOnSurface")
+              COLOR_ON_PRIMARY=$(get_value "$src_file" "colorOnPrimary")
+              COLOR_ERROR=$(get_value "$src_file" "colorError")
+
+              UI_CORNER_RADIUS=$(get_value "$src_file" "uiCornerRadiusDp")
+              UI_GRID_MIN_WIDTH=$(get_value "$src_file" "uiGridMinTileWidthDp")
+              [ -z "$UI_CORNER_RADIUS" ] && UI_CORNER_RADIUS=12
+              [ -z "$UI_GRID_MIN_WIDTH" ] && UI_GRID_MIN_WIDTH=100
+
+              mkdir -p build_tmp
+              cat > "build_tmp/manifest.toml" <<EOF
+          id = "${plugin_id}"
+          name = "${NAME}"
+          version = "${VERSION}"
+          type = "${plugin_type}"
+          [colors]
+          primary = "${COLOR_PRIMARY}"
+          background = "${COLOR_BACKGROUND}"
+          surface = "${COLOR_SURFACE}"
+          surfaceVariant = "${COLOR_SURFACE_VARIANT}"
+          onSurface = "${COLOR_ON_SURFACE}"
+          onPrimary = "${COLOR_ON_PRIMARY}"
+          error = "${COLOR_ERROR}"
+          [uiTweaks]
+          cornerRadiusDp = ${UI_CORNER_RADIUS}
+          gridMinTileWidthDp = ${UI_GRID_MIN_WIDTH}
+          EOF
+
+              (cd build_tmp && zip -q "../plugins/${plugin_id}.wp" manifest.toml)
+              rm -rf build_tmp
+
+              echo "  { id = \"${plugin_id}\", name = \"${NAME}\", description = \"${DESCRIPTION}\", author = \"${AUTHOR}\", version = \"${VERSION}\", previewColorHex = \"${PREVIEW_COLOR}\" }," >> index.toml
+
+              echo "Built plugin: ${plugin_type}/${plugin_id}"
+            done
+
+            echo "]" >> index.toml
+          done
+
+      - name: Commit and push generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add plugins/ index.toml
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: rebuild plugins from source [auto]"
+            git push
+          fi

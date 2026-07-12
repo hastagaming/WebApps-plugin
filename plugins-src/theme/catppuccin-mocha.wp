@@ -1,0 +1,14 @@
+name = "Catppuccin Mocha"
+description = "Soothing pastel dark theme"
+author = "hastagaming"
+version = "1.0.0"
+previewColorHex = "#CBA6F7"
+colorPrimary = "#CBA6F7"
+colorBackground = "#1E1E2E"
+colorSurface = "#313244"
+colorSurfaceVariant = "#45475A"
+colorOnSurface = "#CDD6F4"
+colorOnPrimary = "#1E1E2E"
+colorError = "#F38BA8"
+uiCornerRadiusDp = 12
+uiGridMinTileWidthDp = 100
