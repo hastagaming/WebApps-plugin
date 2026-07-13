@@ -2,3 +2,6 @@
 theme = [
   { id = "catppuccin-mocha", name = "Catppuccin Mocha", description = "Soothing pastel dark theme", author = "hastagaming", version = "1.0.0", previewColorHex = "#CBA6F7" },
 ]
+ui = [
+  { id = "compact-mode", name = "Compact Mode", description = "Smaller grid tiles, FAB on the left, no search bar", author = "hastagaming", version = "1.0.0", previewColorHex = "#607D8B" },
+]

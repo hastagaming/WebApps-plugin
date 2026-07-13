@@ -1,0 +1,16 @@
+name = "Compact Mode"
+description = "Smaller grid tiles, FAB on the left, no search bar"
+author = "hastagaming"
+version = "1.0.0"
+previewColorHex = "#607D8B"
+colorPrimary = "#607D8B"
+colorBackground = "#121212"
+colorSurface = "#1E1E1E"
+colorSurfaceVariant = "#2D2D2D"
+colorOnSurface = "#FFFFFF"
+colorOnPrimary = "#000000"
+colorError = "#CF6679"
+uiCornerRadiusDp = 4
+uiGridMinTileWidthDp = 70
+fabPosition = "start"
+showSearchBar = false

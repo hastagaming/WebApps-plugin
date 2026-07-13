@@ -65,8 +65,12 @@ jobs:
 
               UI_CORNER_RADIUS=$(get_value "$src_file" "uiCornerRadiusDp")
               UI_GRID_MIN_WIDTH=$(get_value "$src_file" "uiGridMinTileWidthDp")
+              FAB_POSITION=$(get_value "$src_file" "fabPosition")
+              SHOW_SEARCH_BAR=$(get_value "$src_file" "showSearchBar")
               [ -z "$UI_CORNER_RADIUS" ] && UI_CORNER_RADIUS=12
               [ -z "$UI_GRID_MIN_WIDTH" ] && UI_GRID_MIN_WIDTH=100
+              [ -z "$FAB_POSITION" ] && FAB_POSITION="end"
+              [ -z "$SHOW_SEARCH_BAR" ] && SHOW_SEARCH_BAR="true"
 
               mkdir -p build_tmp
               cat > "build_tmp/manifest.toml" <<EOF
@@ -85,6 +89,8 @@ jobs:
           [uiTweaks]
           cornerRadiusDp = ${UI_CORNER_RADIUS}
           gridMinTileWidthDp = ${UI_GRID_MIN_WIDTH}
+          fabPosition = "${FAB_POSITION}"
+          showSearchBar = ${SHOW_SEARCH_BAR}
           EOF
 
               (cd build_tmp && zip -q "../plugins/${plugin_id}.wp" manifest.toml)
