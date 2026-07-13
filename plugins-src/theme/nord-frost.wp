@@ -1,0 +1,14 @@
+name = "Nord Frost"
+description = "An arctic, north-bluish dark theme for immersive browsing"
+author = "hastagaming-ai"
+version = "1.0.0"
+previewColorHex = "#88C0D0"
+colorPrimary = "#88C0D0"
+colorBackground = "#2E3440"
+colorSurface = "#3B4252"
+colorSurfaceVariant = "#434C5E"
+colorOnSurface = "#ECEFF4"
+colorOnPrimary = "#2E3440"
+colorError = "#BF616A"
+uiCornerRadiusDp = 16
+uiGridMinTileWidthDp = 110
