@@ -17,13 +17,10 @@ You never need to run any script manually or hand-edit `index.toml` — just add
 ## Repository structure
 ```
 WebApps-plugin/
-├── index.toml              # Auto-generated catalog. Do not edit manually.
+├── index.toml              # Auto-generated catalog (id + name only). Do not edit manually.
+├── plugin-ic/                # Plugin icons, add manually: .png
 ├── plugins/                 # Auto-generated distributable .wp (zip) files.
 ├── plugins-src/              # Where you add new plugins.
-│   └── theme/
-│       └── catppuccin-mocha.wp   # Plain-text TOML source, NOT zipped.
-└── .github/workflows/
-└── build-plugins.yml     # Builds plugins-src/ into plugins/ + index.toml
 ```
 
 > **Note on `.wp` files:** files inside `plugins-src/` are plain TOML text (source). Files inside `plugins/` are ZIP archives with the same `.wp` extension (distributable format WebApps actually downloads). They share a name and extension but are different formats — don't confuse them.
@@ -94,6 +91,21 @@ Please make sure your plugin:
 - Has readable contrast between colorOnSurface/colorOnPrimary and their respective backgrounds.
 - Uses a unique, descriptive plugin ID.
 - Includes accurate author attribution.
+
+## Plugin Icons (Optional)
+
+You may optionally add an icon at `plugin-ic/<plugin-id>.svg`. If provided, it **must** be an SVG file with colorful content (not grayscale/monochrome) — this keeps the Plugin Browser visually consistent and easy to scan.
+
+If no icon is provided, WebApps automatically shows a colored placeholder derived from the plugin's ID, so an icon is never strictly required.
+
+Example minimal colorful SVG (128x128, solid color background with a simple shape):
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="24" fill="#7C4DFF"/>
+  <circle cx="64" cy="64" r="36" fill="#E8EAFF"/>
+</svg>
+```
 
 ## License
 Plugins in this repository are contributed under [MIT](./LICENSE) License unless otherwise noted by the plugin author. By submitting a plugin, you agree to license it under these terms.
