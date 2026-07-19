@@ -1,7 +1,9 @@
 [plugin]
-items = [
+theme = [
   { id = "catppuccin-mocha", name = "Catppuccin Mocha" },
-  { id = "midnight-aurora", name = "Midnight Aurora" },
   { id = "nord-frost", name = "Nord Frost" },
+  { id = "midnight-aurora", name = "Midnight Aurora" },
+]
+ui = [
   { id = "compact-mode", name = "Compact Mode" },
 ]
